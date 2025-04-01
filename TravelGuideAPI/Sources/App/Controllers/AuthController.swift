@@ -58,9 +58,17 @@ struct AuthController: RouteCollection {
         }
 
         // Firma JWT
-        let payload = UserPayload(username: user.username, fullName: user.fullName, isActive: user.isActive)
+        let payload = UserPayload(
+            id: try user.requireID(),
+            username: user.username,
+            fullName: user.fullName,
+            isActive: user.isActive
+        )
+        
         let token = try req.jwt.sign(payload)
 
         return TokenResponseDTO(token: token)
     }
+    
+    
 }

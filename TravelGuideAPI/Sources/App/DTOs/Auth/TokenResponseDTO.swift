@@ -12,7 +12,8 @@ struct TokenResponseDTO: Content {
     let token: String
 }
 
-struct UserPayload: JWTPayload {
+struct UserPayload: JWTPayload, Authenticatable {
+    let id: UUID
     let username: String
     let fullName: String
     let isActive: Bool
