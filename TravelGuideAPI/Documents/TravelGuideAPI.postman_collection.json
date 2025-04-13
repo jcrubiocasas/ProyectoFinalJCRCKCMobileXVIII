@@ -1,0 +1,236 @@
+{
+  "info": {
+    "name": "TravelGuideAPI",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "travelguideapi-2025-04-02T19:58:10.564039"
+  },
+  "item": [
+    {
+      "name": "Get Me",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpjcnViaW9AZXF1aW5zYS5lcyIsImlzQWN0aXZlIjp0cnVlLCJleHAiOjE3NDM3MDk1MzkuMzk1NzYsImlkIjoiQTQzRkQ2RTUtNDE2OS00MkNBLUI2MkQtNDY5MDdFRkYyMzk3IiwiZnVsbE5hbWUiOiJKdWFuIENhcmxvcyBSdWJpbyBDYXNhcyJ9.JYhRgn42C_w8ceJGpuXy5Ko5bDSWsG7t4WfrYnFLntI",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/me",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "me"
+          ]
+        },
+        "description": "Devuelve datos del usuario autenticado."
+      }
+    },
+    {
+      "name": "Generate Itinerary",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpjcnViaW9AZXF1aW5zYS5lcyIsImlzQWN0aXZlIjp0cnVlLCJleHAiOjE3NDM3MDk1MzkuMzk1NzYsImlkIjoiQTQzRkQ2RTUtNDE2OS00MkNBLUI2MkQtNDY5MDdFRkYyMzk3IiwiZnVsbE5hbWUiOiJKdWFuIENhcmxvcyBSdWJpbyBDYXNhcyJ9.JYhRgn42C_w8ceJGpuXy5Ko5bDSWsG7t4WfrYnFLntI",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/ai/generate-itinerary",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "ai",
+            "generate-itinerary"
+          ]
+        },
+        "description": "Genera un itinerario con GPT y DALL\u00b7E.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"destination\": \"Granada\",\n  \"maxVisitTime\": 180,\n  \"maxResults\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Save Itinerary",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpjcnViaW9AZXF1aW5zYS5lcyIsImlzQWN0aXZlIjp0cnVlLCJleHAiOjE3NDM3MDk1MzkuMzk1NzYsImlkIjoiQTQzRkQ2RTUtNDE2OS00MkNBLUI2MkQtNDY5MDdFRkYyMzk3IiwiZnVsbE5hbWUiOiJKdWFuIENhcmxvcyBSdWJpbyBDYXNhcyJ9.JYhRgn42C_w8ceJGpuXy5Ko5bDSWsG7t4WfrYnFLntI",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/itineraries/save",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "itineraries",
+            "save"
+          ]
+        },
+        "description": "Guarda un itinerario generado.",
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"id\": \"UUID_DEL_ITINERARIO\",\n    \"title\": \"La Alhambra\",\n    \"description\": \"Descripci\\u00f3n aqu\\u00ed...\",\n    \"duration\": 120,\n    \"image\": \"/images/itineraries/UUID_DEL_ITINERARIO.png\",\n    \"latitude\": 37.176,\n    \"longitude\": -3.5883\n  }\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "List Itineraries",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpjcnViaW9AZXF1aW5zYS5lcyIsImlzQWN0aXZlIjp0cnVlLCJleHAiOjE3NDM3MDk1MzkuMzk1NzYsImlkIjoiQTQzRkQ2RTUtNDE2OS00MkNBLUI2MkQtNDY5MDdFRkYyMzk3IiwiZnVsbE5hbWUiOiJKdWFuIENhcmxvcyBSdWJpbyBDYXNhcyJ9.JYhRgn42C_w8ceJGpuXy5Ko5bDSWsG7t4WfrYnFLntI",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/itineraries/list",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "itineraries",
+            "list"
+          ]
+        },
+        "description": "Lista itinerarios del usuario."
+      }
+    },
+    {
+      "name": "Delete Itinerary",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpjcnViaW9AZXF1aW5zYS5lcyIsImlzQWN0aXZlIjp0cnVlLCJleHAiOjE3NDM3MDk1MzkuMzk1NzYsImlkIjoiQTQzRkQ2RTUtNDE2OS00MkNBLUI2MkQtNDY5MDdFRkYyMzk3IiwiZnVsbE5hbWUiOiJKdWFuIENhcmxvcyBSdWJpbyBDYXNhcyJ9.JYhRgn42C_w8ceJGpuXy5Ko5bDSWsG7t4WfrYnFLntI",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/itineraries/delete?id=UUID_DEL_ITINERARIO",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "itineraries",
+            "delete?id=UUID_DEL_ITINERARIO"
+          ]
+        },
+        "description": "Elimina un itinerario y su imagen."
+      }
+    },
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "auth",
+            "register"
+          ]
+        },
+        "description": "Registrar un nuevo usuario.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"nuevo@usuario.com\",\n  \"password\": \"123456\",\n  \"fullName\": \"Nuevo Usuario\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "description": "Obtener un token JWT.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"jcrubio@equinsa.es\",\n  \"password\": \"123456\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

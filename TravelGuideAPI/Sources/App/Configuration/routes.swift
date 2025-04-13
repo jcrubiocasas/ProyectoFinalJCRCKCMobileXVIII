@@ -2,25 +2,27 @@ import Fluent
 import Vapor
 
 func routes(_ app: Application) throws {
-    /*
-    let protected = app.grouped(JWTAuthenticatorMiddleware())
-    try protected.register(collection: UserController())
-
-    try app.routes.register(collection: AuthController())
-    
-    try app.grouped(JWTAuthenticatorMiddleware()).register(collection: ItineraryAIController())
-    try app.routes.register(collection: AIController(chatService: app.chatGPTService))
-    
-    try app.grouped(JWTAuthenticatorMiddleware()).register(collection: ItineraryController())
-    try app.routes.register(collection: ItineraryController())
-     */
     // 🔒 Controladores que requieren autenticación JWT
-    let protected = app.grouped(JWTAuthenticatorMiddleware())
+    // Declara el entorno protegido por el middleware y JWT
+    //let protected = app.grouped(JWTAuthenticatorMiddleware())
+    let protected = app.grouped(UserPayload.authenticator())
+    
+    // Endpoint: me
+    // Retorna datos del JWT sin hacer login
     try protected.register(collection: UserController())
-    try protected.register(collection: ItineraryController())
+    
+    // Endpoint: ai/generate-itinerary
+    // Podemos pedir la generacion de itinerarios a GPT e imagenes a DALL.E
     try protected.register(collection: ItineraryAIController())
-
+    
+    // Endpoint: itineraries/save Podemos salvar itinerario
+    // Endpoint: itineraries/list Podemos listar itinerarios
+    // Endpoint: itineraries/delete?id:UID de itinerario Podemos borrar itinerario
+    try protected.register(collection: ItineraryController())
+    
     // 🔓 Controladores sin autenticación
+    
+    // Endpoint: auth/register Podemos registrar usuario
+    // Endpoint: auth/login Podemos hacer login que retorna token JWT
     try app.register(collection: AuthController())
-    try app.register(collection: AIController(chatService: app.chatGPTService))
 }

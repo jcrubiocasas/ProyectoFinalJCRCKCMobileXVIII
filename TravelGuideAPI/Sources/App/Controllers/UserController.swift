@@ -17,6 +17,7 @@ struct UserController: RouteCollection {
     func me(req: Request) throws -> UserResponseDTO {
         let payload = try req.auth.require(UserPayload.self)
         return UserResponseDTO(
+            id: payload.id,
             username: payload.username,
             fullName: payload.fullName,
             isActive: payload.isActive

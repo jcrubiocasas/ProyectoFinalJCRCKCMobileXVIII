@@ -15,14 +15,16 @@ struct ChatGPTService {
 
     func generateItinerary(from request: ItineraryPromptRequestDTO) async throws -> [ItineraryDTO] {
         let prompt = """
-        Eres un experto guía de viajes. Quiero ir a \(request.destination), dispongo de \(request.maxVisitTime) minutos para realizar turismo. 
+        Eres un experto guía de viajes. 
+        Necesito que me ayudes a buscar informacion de sitios para hacer turismo, segun los siguientes paramentros:
+        Quiero ir a \(request.destination) \(request.details), dispongo de \(request.maxVisitTime) minutos para realizar turismo. 
         Recomiéndame \(request.maxResults) lugares interesantes para visitar.
 
         Devuélveme SOLO un array JSON con los siguientes campos por lugar. No añadas texto antes o después del array. Todos los campos deben ser reales y coherentes.
         [
           {
             "title": "Nombre del lugar",
-            "description": "Descripción de unas 50 a 80 palabras del lugar",
+            "description": "Descripción de unas 80 a 100 palabras del lugar",
             "duration": 60,
             "image": "URL temporal",
             "latitude": 40.4168,
@@ -73,7 +75,13 @@ struct ChatGPTService {
             // Lanzar generación de imagen en segundo plano
             Task.detached {
                 do {
-                    let dallePrompt = "\(itinerary.title): \(itinerary.description)"
+                    let dallePrompt = """
+                    Eres un experto en viajes y fotografia.
+                    Genera una imagen atractiva lo mas realista posible, 
+                    para ilustrar un itinerario de viaje, 
+                    cuyo titulo descriptivo es: \(itinerary.title) y 
+                    cuya descripcion se ajuste lo mas posible a: \(itinerary.description)
+                    """
                     let base64 = try await generateImageBase64(prompt: dallePrompt)
                     try saveImageToDisk(base64: base64, id: id)
                 } catch {
@@ -197,6 +205,10 @@ struct ChatGPTService {
         return base64
     }
     
+    // Salvamos imagen generada por DALL.E a disco a la caprpeta
+    // Public/images/itineraries para disponer de un repositorio de
+    // imagenes libres de derechos de autor y sin dependencias externas
+    // licencias o suscripciones de uso.
     private func saveImageToDisk(base64: String, id: String) throws {
         guard let data = Data(base64Encoded: base64) else {
             throw Abort(.internalServerError, reason: "No se pudo decodificar la imagen base64")

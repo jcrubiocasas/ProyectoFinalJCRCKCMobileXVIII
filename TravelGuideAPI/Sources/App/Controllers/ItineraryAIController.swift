@@ -9,11 +9,16 @@ import Vapor
 import JWT
 
 struct ItineraryAIController: RouteCollection {
+    /*
     func boot(routes: any RoutesBuilder) throws {
         //let group = routes.grouped("ai-itineraries")
         //group.post(use: generateItinerary)
         let group = routes.grouped("ai") // en lugar de "ai-itineraries"
         group.post("generate-itinerary", use: generateItinerary)
+    }
+    */
+    func boot(routes: any RoutesBuilder) throws {
+        routes.grouped("ai").post("generate-itinerary", use: generateItinerary)
     }
 
     func generateItinerary(req: Request) async throws -> [ItineraryDTO] {
@@ -33,7 +38,7 @@ struct ItineraryAIController: RouteCollection {
 
         // 📄 Extrae los datos del prompt desde el cuerpo del request
         let promptDTO = try req.content.decode(ItineraryPromptRequestDTO.self)
-        req.logger.info("📝 Prompt recibido para destino: \(promptDTO.destination), tiempo: \(promptDTO.maxVisitTime), número: \(promptDTO.maxResults)")
+        req.logger.info("📝 Prompt recibido para destino: \(promptDTO.destination),\(promptDTO.details), tiempo: \(promptDTO.maxVisitTime), número: \(promptDTO.maxResults)")
 
         // 🤖 Llama al servicio compartido registrado en Application
         let resultado = try await req.application.chatGPTService.generateItinerary(from: promptDTO)

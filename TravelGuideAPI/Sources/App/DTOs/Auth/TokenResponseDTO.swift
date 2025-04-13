@@ -17,8 +17,9 @@ struct UserPayload: JWTPayload, Authenticatable {
     let username: String
     let fullName: String
     let isActive: Bool
+    var exp: ExpirationClaim
     
     func verify(using signer: JWTSigner) throws {
-        // Aquí puedes agregar si quieres. De momento, no es necesario.
+        try exp.verifyNotExpired()
     }
 }

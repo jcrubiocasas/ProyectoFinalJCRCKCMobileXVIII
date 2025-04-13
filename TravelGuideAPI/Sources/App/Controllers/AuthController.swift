@@ -44,17 +44,20 @@ struct AuthController: RouteCollection {
     // Logica de login
     func login(req: Request) async throws -> TokenResponseDTO {
         let data = try req.content.decode(LoginRequestDTO.self)
-
+        let expiration = ExpirationClaim(value: .init(timeIntervalSinceNow: 86400))
+        // 1 SEMANA = 604800
+        // 1 DIA = 86400
+        // 1 HORA = 3600 segundos
         guard let user = try await User.query(on: req.db)
             .filter(\.$username == data.username)
             .first()
         else {
-            throw Abort(.unauthorized, reason: "Usuario o contraseña incorrectos")
+            throw Abort(.unauthorized, reason: "Usuario incorrecto")
         }
 
         let isPasswordCorrect = try Bcrypt.verify(data.password, created: user.passwordHash)
         guard isPasswordCorrect else {
-            throw Abort(.unauthorized, reason: "Usuario o contraseña incorrectos")
+            throw Abort(.unauthorized, reason: "Contraseña incorrecta")
         }
 
         // Firma JWT
@@ -62,7 +65,8 @@ struct AuthController: RouteCollection {
             id: try user.requireID(),
             username: user.username,
             fullName: user.fullName,
-            isActive: user.isActive
+            isActive: user.isActive,
+            exp: expiration
         )
         
         let token = try req.jwt.sign(payload)

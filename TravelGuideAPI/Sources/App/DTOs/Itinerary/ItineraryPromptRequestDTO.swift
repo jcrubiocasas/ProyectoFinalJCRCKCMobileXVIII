@@ -9,6 +9,7 @@ import Vapor
 
 struct ItineraryPromptRequestDTO: Content {
     let destination: String
+    let details: String
     let maxVisitTime: Int   // en minutos
     let maxResults: Int     // número de sitios sugeridos
 }

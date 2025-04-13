@@ -9,6 +9,13 @@ public func configure(_ app: Application) async throws {
     // 🌐 Permitir conexiones externas
     app.http.server.configuration.hostname = "0.0.0.0"
     app.http.server.configuration.port = 8080
+    // Configuracion HTTPS
+    //app.http.server.configuration.port = 443
+    //app.http.server.configuration.tlsConfiguration = .forServer(
+    //    certificateChain: [.certificate(file: "/Certificates/cert.pem")],
+    //    privateKey: .file("/Certificates/key.pem")
+    //)
+    
     // 🛢 Lectura de los datos de configuracion de las variables de
     // entorno para la configuración de la base de datos PostgreSQL
     let postgresConfig = SQLPostgresConfiguration(
@@ -20,6 +27,7 @@ public func configure(_ app: Application) async throws {
         tls: .disable
     )
     app.databases.use(.postgres(configuration: postgresConfig), as: .psql)
+    
     // 🔐 Configuración del firmante JWT
     app.jwt.signers.use(.hs256(key: Environment.get("JWT_SECRET") ?? "default-secret"))
     

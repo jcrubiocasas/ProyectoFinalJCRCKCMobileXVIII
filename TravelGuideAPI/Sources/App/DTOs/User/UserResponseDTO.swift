@@ -8,6 +8,7 @@
 import Vapor
 
 struct UserResponseDTO: Content {
+    let id: UUID
     let username: String
     let fullName: String
     let isActive: Bool
