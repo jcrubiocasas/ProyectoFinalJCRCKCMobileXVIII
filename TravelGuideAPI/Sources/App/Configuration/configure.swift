@@ -33,22 +33,32 @@ public func configure(_ app: Application) async throws {
     
     
     // 🧠 Token OpenAI y registro del servicio GPT
-    // ✅ Lee token OpenAI de las variables de entorno
+    // ✅ Obtenemos token OpenAI de environment .
     guard let openAIToken = Environment.get("OPENAI_KEY") else {
         fatalError("❌ Falta OPENAI_KEY en el entorno")
     }
-    // ✅ Lee Unsplash de las variables de entorno
-    //guard let unsplashToken = Environment.get("UNSPLASH_KEY") else {
-    //    fatalError("❌ Falta UNSPLASH_KEY en el entorno")
-    //}
-    
-    // ✅ Inyecta el servicio con ambas claves
+    // ✅ Inyectamos token de OpenAI en Application
     app.chatGPTService = ChatGPTService(
         client: app.client,
         gptToken: openAIToken,
         app: app
     )
     
+    // ✅ Lee Unsplash de las variables de entorno
+    //guard let unsplashToken = Environment.get("UNSPLASH_KEY") else {
+    //    fatalError("❌ Falta UNSPLASH_KEY en el entorno")
+    //}
+    
+    // ✅ Obtenemos token Google Places de environment .Idea experimental
+    guard let googlePlacesToken = Environment.get("GOOGLE_PLACES_KEY") else {
+        fatalError("❌ Falta GOOGLE_PLACES_KEY en el entorno")
+    }
+    // ✅ Inyectamos token de Google Places en Application
+    //app.googlePlacesToken = googlePlacesToken
+    app.googlePlacesService = GooglePlacesService(
+        client: app.client,
+        googleApiKey: googlePlacesToken
+    )
     
     // 🚫 Middleware JWT NO se aplica globalmente
     // app.middleware.use(JWTAuthenticatorMiddleware()) // ← Esto se aplica solo en rutas privadas

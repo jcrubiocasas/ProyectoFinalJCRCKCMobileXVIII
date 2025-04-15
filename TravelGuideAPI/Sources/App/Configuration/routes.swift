@@ -20,6 +20,13 @@ func routes(_ app: Application) throws {
     // Endpoint: itineraries/delete?id:UID de itinerario Podemos borrar itinerario
     try protected.register(collection: ItineraryController())
     
+    // Endpoint: ai/generate-advanced-itinerary
+    // Endpoint avanzado que combina recursos de Google Sites con la
+    // creatividad de chatGPT
+    // Endpoint experimental para vers si tiene un mejor rendimiento y
+    // genera mas datos y satisfaccion del usuario
+    try protected.register(collection: ItineraryAdvancedController())
+    
     // 🔓 Controladores sin autenticación
     
     // Endpoint: auth/register Podemos registrar usuario

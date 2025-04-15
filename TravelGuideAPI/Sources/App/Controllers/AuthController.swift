@@ -15,30 +15,43 @@ struct AuthController: RouteCollection {
         authRoutes.post("register", use: register)
         authRoutes.post("login", use: login)
     }
+    
     // Logica del registro de usuario nuevo
-    func register(req: Request) async throws -> HTTPStatus {
-        let data = try req.content.decode(RegisterRequestDTO.self)
-
-        // Verifica si ya existe ese usuario
-        if try await User.query(on: req.db)
-            .filter(\.$username == data.username)
-            .first() != nil {
-            throw Abort(.conflict, reason: "El usuario ya existe")
+    func register(req: Request) async throws -> Response {
+        do {
+            let data = try req.content.decode(RegisterRequestDTO.self)
+            
+            // Verificar si ya existe
+            if try await User.query(on: req.db)
+                .filter(\.$username == data.username)
+                .first() != nil {
+                // Aquí ya no hacemos throw directamente
+                let response = RegisterResponseDTO(message: "El usuario ya existe")
+                return try await response.encodeResponse(status: .conflict, for: req)
+            }
+            
+            // Encriptar password
+            let passwordHash = try Bcrypt.hash(data.password)
+            
+            // Crear nuevo usuario
+            let user = User(
+                username: data.username,
+                passwordHash: passwordHash,
+                fullName: data.fullName,
+                isActive: true
+            )
+            
+            try await user.save(on: req.db)
+            
+            // Devolver éxito
+            let response = RegisterResponseDTO(message: "Usuario registrado correctamente")
+            return try await response.encodeResponse(status: .created, for: req)
+            
+        } catch {
+            // Error inesperado
+            let response = RegisterResponseDTO(message: "Error interno del servidor")
+            return try await response.encodeResponse(status: .internalServerError, for: req)
         }
-
-        // Encriptar password
-        let passwordHash = try Bcrypt.hash(data.password)
-
-        // Crear nuevo usuario
-        let user = User(
-            username: data.username,
-            passwordHash: passwordHash,
-            fullName: data.fullName,
-            isActive: true
-        )
-
-        try await user.save(on: req.db)
-        return .created
     }
     
     // Logica de login

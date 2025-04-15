@@ -1,10 +1,3 @@
-//
-//  ItineraryDTO.swift
-//  TravelGuideAPI
-//
-//  Created by Juan Carlos Rubio Casas on 1/4/25.
-//
-
 import Vapor
 
 struct ItineraryDTO: Content {
