@@ -25,10 +25,14 @@ func routes(_ app: Application) throws {
     // creatividad de chatGPT
     // Endpoint experimental para vers si tiene un mejor rendimiento y
     // genera mas datos y satisfaccion del usuario
+    
     try protected.register(collection: ItineraryAdvancedController())
+    // Endpoint: advanced-itineraries/save Podemos salvar itinerario
+    // Endpoint: advanced-itineraries/list Podemos listar itinerarios
+    // Endpoint: advanced-itineraries/delete?id:UID de itinerario Podemos borrar itinerario
+    try protected.register(collection: AdvancedItineraryController())
     
     // 🔓 Controladores sin autenticación
-    
     // Endpoint: auth/register Podemos registrar usuario
     // Endpoint: auth/login Podemos hacer login que retorna token JWT
     try app.register(collection: AuthController())

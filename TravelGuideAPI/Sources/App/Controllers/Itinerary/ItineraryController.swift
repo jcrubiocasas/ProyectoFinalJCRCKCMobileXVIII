@@ -11,14 +11,6 @@ import Foundation
 import Fluent
 
 struct ItineraryController: RouteCollection {
-    /*
-    func boot(routes: any RoutesBuilder) throws {
-        let group = routes.grouped(JWTAuthenticatorMiddleware())
-        group.post("itineraries", "save", use: saveItinerary)
-        group.get("itineraries", "list", use: listItineraries)
-        group.delete("itineraries", "delete", ":id", use: deleteItinerary)
-    }
-    */
     func boot(routes: any RoutesBuilder) throws {
         routes.post("itineraries", "save", use: saveItinerary)
         routes.get("itineraries", "list", use: listItineraries)
@@ -43,6 +35,15 @@ struct ItineraryController: RouteCollection {
         )
 
         try await itinerary.save(on: req.db)
+        
+        // Registro auditoria
+        try await req.application.auditLogService.log(
+            req: req,
+            userID: payload.id,
+            action: "save_itinerary",
+            description: "Itinerario guardado: \(dto.title)"
+        )
+        
         req.logger.info("✅ Itinerario guardado con éxito: \(payload.id)")
         return .created
     }
@@ -54,6 +55,14 @@ struct ItineraryController: RouteCollection {
         let itineraries = try await Itinerary.query(on: req.db)
             .filter(\.$user.$id == payload.id)
             .all()
+        
+        // Registro auditoria
+        try await req.application.auditLogService.log(
+            req: req,
+            userID: payload.id,
+            action: "list_itineraries",
+            description: "Listado de itinerarios consultado"
+        )
 
         return itineraries.map {
             ItineraryDTO(
@@ -96,6 +105,15 @@ struct ItineraryController: RouteCollection {
         }
 
         try await itinerary.delete(on: req.db)
+        
+        // Registro auditoria
+        try await req.application.auditLogService.log(
+            req: req,
+            userID: payload.id,
+            action: "delete_itinerary",
+            description: "Itinerario eliminado: \(uuid.uuidString)"
+        )
+        
         return .ok
     }
 }

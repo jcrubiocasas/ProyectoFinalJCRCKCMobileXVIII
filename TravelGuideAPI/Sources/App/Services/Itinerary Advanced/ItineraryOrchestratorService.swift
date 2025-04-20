@@ -30,7 +30,7 @@ final class ItineraryOrchestratorService {
                 enrichedItem.website = googleData.website
                 enrichedItem.phone = googleData.phone
                 enrichedItem.opening_hours = googleData.openingHours
-                enrichedItem.source = "IA+Google"
+                enrichedItem.source = "GPTravel"
             }
 
             enriched.append(enrichedItem)

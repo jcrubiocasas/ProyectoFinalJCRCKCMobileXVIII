@@ -28,9 +28,33 @@ public func configure(_ app: Application) async throws {
     )
     app.databases.use(.postgres(configuration: postgresConfig), as: .psql)
     
+    // ✅ Obtenemos MAIL_ACTIVATION_SECRET para poder enviar correos de verificacion
+    guard let mailActivationSecret = Environment.get("MAIL_ACTIVATION_SECRET") else {
+        fatalError("MAIL_ACTIVATION_SECRET not configured")
+    }
+    // ✅ Inyectamos MAIL_ACTIVATION_SECRET en Application
+    app.securityTokenService = SecurityTokenService(secret: mailActivationSecret)
+    
+    guard let mailerURL = Environment.get("EMAIL_SENDER_URL") else {
+        fatalError("EMAIL_SENDER_URL not set")
+    }
+    
+    app.mailService = MailService(
+        mailerURL: mailerURL,
+        from: "GPTravel<jcrubio@equinsa.es>",
+        xMailer: "GPTravel",
+        apiTokenGenerator: { email in
+            app.securityTokenService.generateActivationToken(datosAdicionales: "")
+        }
+    )
+    
     // 🔐 Configuración del firmante JWT
     app.jwt.signers.use(.hs256(key: Environment.get("JWT_SECRET") ?? "default-secret"))
+    // 🚫 Middleware JWT NO se aplica globalmente
+    // app.middleware.use(JWTAuthenticatorMiddleware()) // ← Esto se aplica solo en rutas privadas
     
+    // ✅ Sirve archivos desde Public/
+    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
     
     // 🧠 Token OpenAI y registro del servicio GPT
     // ✅ Obtenemos token OpenAI de environment .
@@ -54,20 +78,20 @@ public func configure(_ app: Application) async throws {
         fatalError("❌ Falta GOOGLE_PLACES_KEY en el entorno")
     }
     // ✅ Inyectamos token de Google Places en Application
-    //app.googlePlacesToken = googlePlacesToken
     app.googlePlacesService = GooglePlacesService(
         client: app.client,
         googleApiKey: googlePlacesToken
     )
     
-    // 🚫 Middleware JWT NO se aplica globalmente
-    // app.middleware.use(JWTAuthenticatorMiddleware()) // ← Esto se aplica solo en rutas privadas
-    // ✅ Sirve archivos desde Public/
-    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+    // ✅ Inyectamos servicio de auditoria en Applicaction
+    app.auditLogService = DefaultAuditLogService()
     
-    // 🛠 Migrations
+    // 🛠 Migrations de la base de datos
     app.migrations.add(CreateUser()) // Tabla de usuarios
     app.migrations.add(CreateItinerary()) // Tabla de itinerarios
+    app.migrations.add(CreateAdvancedItinerary()) // Tabla itinerarios avanzados
+    app.migrations.add(CreateAuditLog()) // Tabla de auditoria
+    
     // 📌 Rutas
     try routes(app)
 }

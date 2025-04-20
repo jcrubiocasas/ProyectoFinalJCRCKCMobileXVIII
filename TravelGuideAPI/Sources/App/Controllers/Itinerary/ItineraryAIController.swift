@@ -23,6 +23,13 @@ struct ItineraryAIController: RouteCollection {
 
         let result = try await req.application.chatGPTService.generateItinerary(from: promptDTO)
         req.logger.info("✅ Itinerario generado con éxito. Lugares: \(result.itineraries.count)")
+        
+        try await req.application.auditLogService.log(
+            req: req,
+            userID: user.id,
+            action: "generate_ai_itinerary",
+            description: "Se generaron \(result.itineraries.count) itinerarios IA para destino: \(promptDTO.destination)"
+        )
 
         return result.itineraries
     }

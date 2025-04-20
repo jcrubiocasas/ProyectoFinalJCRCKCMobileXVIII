@@ -16,6 +16,16 @@ struct UserController: RouteCollection {
 
     func me(req: Request) throws -> UserResponseDTO {
         let payload = try req.auth.require(UserPayload.self)
+        
+        Task {
+            try? await req.application.auditLogService.log(
+                req: req,
+                userID: payload.id,
+                action: "get_user_info",
+                description: "Consulta de información del usuario"
+            )
+        }
+        
         return UserResponseDTO(
             id: payload.id,
             username: payload.username,
