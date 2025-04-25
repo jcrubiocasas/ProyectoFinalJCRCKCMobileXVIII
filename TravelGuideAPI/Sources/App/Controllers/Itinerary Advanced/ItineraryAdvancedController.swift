@@ -23,7 +23,7 @@ struct ItineraryAdvancedController: RouteCollection {
         
         //return try await orchestrator.generateEnhancedItineraries(from: promptDTO, type: .tourism)
         
-        let enhanced = try await orchestrator.generateEnhancedItineraries(from: promptDTO, type: .tourism)
+        let enhanced = try await orchestrator.generateEnhancedItineraries(from: promptDTO, type: .tourism, on: req)
 
         try await req.application.auditLogService.log(
             req: req,

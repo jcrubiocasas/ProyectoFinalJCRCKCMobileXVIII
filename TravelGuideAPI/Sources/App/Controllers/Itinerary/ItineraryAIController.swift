@@ -20,8 +20,9 @@ struct ItineraryAIController: RouteCollection {
 
         let promptDTO = try req.content.decode(ItineraryPromptRequestDTO.self)
         req.logger.info("📝 Prompt recibido para destino: \(promptDTO.destination), \(promptDTO.details), tiempo: \(promptDTO.maxVisitTime), número: \(promptDTO.maxResults)")
-
-        let result = try await req.application.chatGPTService.generateItinerary(from: promptDTO)
+        
+        let payload = try req.auth.require(UserPayload.self)
+        let result = try await req.application.chatGPTService.generateItinerary(for: payload.id, on: req, from: promptDTO)
         req.logger.info("✅ Itinerario generado con éxito. Lugares: \(result.itineraries.count)")
         
         try await req.application.auditLogService.log(

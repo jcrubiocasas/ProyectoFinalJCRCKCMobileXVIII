@@ -32,6 +32,9 @@ func routes(_ app: Application) throws {
     // Endpoint: advanced-itineraries/delete?id:UID de itinerario Podemos borrar itinerario
     try protected.register(collection: AdvancedItineraryController())
     
+    // ADS gestion
+    try app.grouped(JWTAuthenticatorMiddleware()).register(collection: AdsBannerController())
+    
     // 🔓 Controladores sin autenticación
     // Endpoint: auth/register Podemos registrar usuario
     // Endpoint: auth/login Podemos hacer login que retorna token JWT

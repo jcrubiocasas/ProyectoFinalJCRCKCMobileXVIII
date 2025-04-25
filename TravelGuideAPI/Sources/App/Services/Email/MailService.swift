@@ -47,7 +47,7 @@ struct MailService: Sendable {
         //req.logger.info("📧 --- INICIO LOG RESPUESTA ---")
         //req.logger.info("📧 Estatus: \(response.status)")
         //req.logger.info("📧 Cabeceras: \(response.headers)")
-        //req.logger.info("📧 Descripcion: \(response.description)")
+        req.logger.info("📧 Descripcion: \(response.description)")
         req.logger.info("✅ Enviado correo de activación a \(email)")
     }
 }

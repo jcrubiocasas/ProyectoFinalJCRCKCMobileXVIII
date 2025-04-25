@@ -17,8 +17,10 @@ final class ItineraryOrchestratorService {
     }
 
     /// Genera itinerarios combinando IA + Google Places
-    func generateEnhancedItineraries(from request: ItineraryPromptRequestDTO, type: PromptType) async throws -> [EnhancedItineraryDTO] {
-        let baseItineraries = try await gptService.generateItinerary(from: request)
+    func generateEnhancedItineraries(from request: ItineraryPromptRequestDTO, type: PromptType, on req: Request) async throws -> [EnhancedItineraryDTO] {
+        let user = try req.auth.require(UserPayload.self)
+        let baseItineraries = try await gptService.generateItinerary(for: user.id, on: req, from: request)
+        
         var enriched: [EnhancedItineraryDTO] = []
 
         for item in baseItineraries.itineraries {
