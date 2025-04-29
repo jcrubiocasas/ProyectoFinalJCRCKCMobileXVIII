@@ -92,6 +92,7 @@ public func configure(_ app: Application) async throws {
     app.migrations.add(CreateAdvancedItinerary()) // Tabla itinerarios avanzados
     app.migrations.add(CreateAuditLog()) // Tabla de auditoria
     app.migrations.add(CreateSearchHistory()) // Tabla para mejorar experiencia de busquedas
+    app.migrations.add(CreateEmergencySession()) // Tabla para operativa de emergencia
     
     // 📌 Rutas
     try routes(app)

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Seguimiento de Emergencia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Estilos mínimos -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        #map {
+            height: 85vh;
+            width: 100%;
+        }
+        #status, #last-update {
+            padding: 10px;
+            font-size: 1.1rem;
+        }
+        #status {
+            background-color: #f44336;
+            color: white;
+            display: none;
+        }
+        #last-update {
+            background-color: #4CAF50;
+            color: white;
+            margin-top: 5px;
+        }
+    </style>
+
+    <!-- Leaflet (Mapa) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+
+<body>
+
+<h1>🚨 Seguimiento de Emergencia</h1>
+<div id="status">¡Emergencia finalizada!</div>
+<div id="map"></div>
+<div id="last-update">Última actualización: -</div>
+
+<script>
+    const token = new URLSearchParams(window.location.search).get('token');
+    const map = L.map('map').setView([0, 0], 13);
+    let marker = null;
+    let lastUpdateTimestamp = null;
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    async function fetchLocation() {
+        try {
+            const response = await fetch(`/emergency/location/${token}`);
+            if (!response.ok) {
+                throw new Error("Sesión finalizada o error de servidor.");
+            }
+            const data = await response.json();
+
+            if (!data.isActive) {
+                document.getElementById("status").style.display = "block";
+                return;
+            }
+
+            const { latitude, longitude } = data;
+            lastUpdateTimestamp = Date.now();
+
+            if (marker) {
+                marker.setLatLng([latitude, longitude]);
+                map.panTo([latitude, longitude]); // 👈 Centra en la nueva ubicación
+            } else {
+                marker = L.marker([latitude, longitude]).addTo(map);
+                map.setView([latitude, longitude], 15);
+            }
+
+        } catch (error) {
+            document.getElementById("status").innerText = "⚠️ Error de conexión o emergencia finalizada.";
+            document.getElementById("status").style.display = "block";
+        }
+    }
+
+    function updateLastUpdateDisplay() {
+        if (lastUpdateTimestamp) {
+            const secondsAgo = Math.floor((Date.now() - lastUpdateTimestamp) / 1000);
+            document.getElementById("last-update").innerText = `Última actualización: hace ${secondsAgo} segundos`;
+        } else {
+            document.getElementById("last-update").innerText = `Última actualización: -`;
+        }
+    }
+
+    // Primer fetch inmediato
+    fetchLocation();
+    // Fetch cada 15 segundos
+    setInterval(fetchLocation, 15000);
+    // Actualizar texto cada segundo
+    setInterval(updateLastUpdateDisplay, 1000);
+</script>
+
+</body>
+</html>

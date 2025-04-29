@@ -4,7 +4,7 @@ struct CreateSearchHistory: AsyncMigration {
     func prepare(on database: any Database) async throws {
         try await database.schema("search_history")
             .id()
-            .field("user_id", .uuid, .required, .references("users", "id"))
+            .field("user_id", .uuid, .required, .references("users", "id", onDelete: .cascade))
             .field("destination", .string, .required)
             .field("title", .string, .required)
             .field("created_at", .datetime, .required)

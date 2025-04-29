@@ -39,4 +39,5 @@ func routes(_ app: Application) throws {
     // Endpoint: auth/register Podemos registrar usuario
     // Endpoint: auth/login Podemos hacer login que retorna token JWT
     try app.register(collection: AuthController())
+    try app.register(collection: EmergencySessionController())
 }
