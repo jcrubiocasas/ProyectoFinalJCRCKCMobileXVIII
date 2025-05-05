@@ -35,19 +35,19 @@ struct AdsBannerController: RouteCollection {
 
         return AdsResponseDTO(
             id: nil,
-            title: "",
-            description: "",
-            duration: 0,
+            title: "GPTravel",
+            description: "GPTravel by Juan Carlos Rubio",
+            duration: 120,
             imageAI: "",
             imageReal: adImageURL,
-            address: "",
-            phone: "",
-            website: "",
-            opening_hours: "",
-            latitude: 0.0,
-            longitude: 0.0,
-            category: "",
-            source: ""
+            address: "jcrubio@equinsa.es",
+            phone: "+34 606 405 215",
+            website: "https://equinsaparking.com",
+            opening_hours: "24H",
+            latitude: 40.320082,
+            longitude: -3.650061,
+            category: "Turismo",
+            source: "GPTravel"
         )
     }
 }
