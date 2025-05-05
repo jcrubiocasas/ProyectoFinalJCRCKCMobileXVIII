@@ -1,0 +1,641 @@
+{
+	"info": {
+		"_postman_id": "a304d8c5-6e3b-454b-b692-a52c06c51549",
+		"name": "TravelGuideAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10037873",
+		"_collection_link": "https://gold-trinity-249158.postman.co/workspace/GPTravel~18419254-ae67-460b-a19d-b7318387b010/collection/10037873-a304d8c5-6e3b-454b-b692-a52c06c51549?action=share&source=collection_link&creator=10037873"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"rubiocasasjuancarlos@gmail.com\",\n  \"password\": \"aaaaaa\",\n  \"fullName\": \"aaaaaa\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/auth/register",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				},
+				"description": "Registrar un nuevo usuario."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/auth/delete",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"auth",
+						"delete"
+					]
+				},
+				"description": "Devuelve datos del usuario autenticado."
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"jcrubio@equinsa.es\",\n  \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/auth/login",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "Obtener un token JWT."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Me",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/me",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"me"
+					]
+				},
+				"description": "Devuelve datos del usuario autenticado."
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Itinerary",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"destination\": \"Granada\",\n  \"details\": \"que no sean la alhambra\",\n  \"maxVisitTime\": 180,\n  \"maxResults\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/ai/generate-itinerary",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"ai",
+						"generate-itinerary"
+					]
+				},
+				"description": "Genera un itinerario con GPT y DALL·E."
+			},
+			"response": []
+		},
+		{
+			"name": "List Itineraries",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpjcnViaW9AZXF1aW5zYS5lcyIsImlzQWN0aXZlIjp0cnVlLCJleHAiOjE3NDM3MDk1MzkuMzk1NzYsImlkIjoiQTQzRkQ2RTUtNDE2OS00MkNBLUI2MkQtNDY5MDdFRkYyMzk3IiwiZnVsbE5hbWUiOiJKdWFuIENhcmxvcyBSdWJpbyBDYXNhcyJ9.JYhRgn42C_w8ceJGpuXy5Ko5bDSWsG7t4WfrYnFLntI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/itineraries/list",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"itineraries",
+						"list"
+					]
+				},
+				"description": "Lista itinerarios del usuario."
+			},
+			"response": []
+		},
+		{
+			"name": "Save Itinerary",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/itineraries/save",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"itineraries",
+						"save"
+					]
+				},
+				"description": "Guarda un itinerario generado."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Itinerary",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpjcnViaW9AZXF1aW5zYS5lcyIsImlzQWN0aXZlIjp0cnVlLCJleHAiOjE3NDM3MDk1MzkuMzk1NzYsImlkIjoiQTQzRkQ2RTUtNDE2OS00MkNBLUI2MkQtNDY5MDdFRkYyMzk3IiwiZnVsbE5hbWUiOiJKdWFuIENhcmxvcyBSdWJpbyBDYXNhcyJ9.JYhRgn42C_w8ceJGpuXy5Ko5bDSWsG7t4WfrYnFLntI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/itineraries/delete?id=D9A3F938-2C8C-4BE2-8DAA-423A9629AD76",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"itineraries",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "D9A3F938-2C8C-4BE2-8DAA-423A9629AD76"
+						}
+					]
+				},
+				"description": "Elimina un itinerario y su imagen."
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Advanced itinerary",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"destination\": \"villaverde\",\n  \"details\": \"restaurante sushi\",\n  \"maxVisitTime\": 120,\n  \"maxResults\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/ai/generate-advanced-itinerary",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"ai",
+						"generate-advanced-itinerary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Advanced itinerary",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"440486BC-CFDA-4132-82F7-1615F3BF7028\",\n    \"title\": \"Restaurante Asador El Cordero de Perales\",\n    \"opening_hours\": \"Monday: 8:00 AM – 11:00 PM\\nTuesday: 8:00 AM – 11:00 PM\\nWednesday: 8:00 AM – 11:00 PM\\nThursday: 8:00 AM – 11:00 PM\\nFriday: 8:00 AM – 11:00 PM\\nSaturday: 8:00 AM – 11:00 PM\\nSunday: 8:00 AM – 11:00 PM\",\n    \"source\": \"GPTravel\",\n    \"website\": \"https://asadordeperales.es/\",    \n    \"description\": \"El Restaurante Asador El Cordero de Perales es un lugar emblemático para los amantes de la carne en Getafe. Especializado en cordero lechal asado al estilo tradicional, este restaurante ofrece una experiencia culinaria auténtica en un ambiente acogedor. El cordero es preparado con esmero, resaltando sus sabores naturales y jugosidad. Además, el lugar cuenta con una decoración rústica que complementa perfectamente la experiencia gastronómica. Es un sitio ideal para disfrutar de un platillo típico mientras se descubre la cultura local.\",\n    \"address\": \"C. de Groenlandia, 4, 28909 Getafe, Madrid, Spain\",\n    \"latitude\": 40.3075,\n    \"duration\": 90,\n    \"longitude\": -3.6933,\n    \"imageReal\": \"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AeeoHcKbVUo3UsoSZefZ2n50AmYrEoNesnl9ydJfyRWCI6MxYNlhYw4j3msplrDRU8JFm2zf-9jL4twOtcy-Z9rZmkGRW9fZzo9Cn-qbg0EZsZwPIPuVL-9iinsSucncwvvkBx_q0yUeav-iH8yL-BJ6HKGDPgLs1icp06lXHgBx1hOtvw4sLJJiDYh94gys8IKqybU9lFs9JLy8Y2fSYgs3koI53HpwJi4Q5A7gOpiPExjaY3fRbE533tzQUH1Tvt69USiE-_8Zkjbo1v8kIO_OMbRMG6alCS0idv5GEcWvFW0AR3GSEzbA8GSieVveKr6YMVcR4DcTV_Q&key=AIzaSyBZVmmA-TyH5XaSYstQn46P7z3rsiCE_5E\",\n    \"phone\": \"916 84 85 39\",\n    \"imageAI\": \"/images/itineraries/440486BC-CFDA-4132-82F7-1615F3BF7028.png\",\n    \"category\": \"tourism\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/advanced-itineraries/list",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"advanced-itineraries",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Advanced itinerary",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"category\": \"tourism\",\n    \"duration\": 90,\n    \"imageReal\": \"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AeeoHcKSKxNi_pSgJ0lyyKoev_Jgd16N6l5KZsyfATojo5p1UjzNpa0qiPECbv81b2CyU1xMvByzLn3t726aqhqLkaOZPgVCcaYtcd59-rywR5Io8VZrWA9kqVg9uSl6xmEQjsxz3M7OtkJLD71qdM7sjyAbnYEKwTAR7lnNaj1kGIxGDZOlWRZWLrrBxJb5Zgrfpl9SbCxEgSy01hxBEh8CtJFs98Yrc3P9xnSPmk76Iqm7dmmVN-TUv6l5C9RPfgQWY0zYtX_43tQhWgNb5Ot7q8yMbAcz77Yd2Xj0M6NddL8lE1Z1XY8N3upa3DfJRtSOs2SAxi3o6WU&key=AIzaSyBZVmmA-TyH5XaSYstQn46P7z3rsiCE_5E\",\n    \"title\": \"Sushi Bar Akari\",\n    \"imageAI\": \"/images/itineraries/C1F1CC85-AE16-40C7-9F02-5A966424AC79.png\",\n    \"source\": \"GPTravel\",\n    \"website\": \"https://www.instagram.com/akari_sushibar/\",\n    \"longitude\": -3.7072,\n    \"address\": \"Diag. 74 1531, B1900 La Plata, Provincia de Buenos Aires, Argentina\",\n    \"phone\": \"0221 483-1262\",\n    \"opening_hours\": \"Monday: 11:30 AM – 2:00 PM, 7:00 – 10:30 PM\\nTuesday: 11:30 AM – 2:00 PM, 7:00 – 10:30 PM\\nWednesday: 11:30 AM – 2:00 PM, 7:00 – 10:30 PM\\nThursday: 11:30 AM – 2:00 PM, 7:00 – 10:30 PM\\nFriday: 11:30 AM – 2:00 PM, 7:00 – 11:00 PM\\nSaturday: 7:00 – 11:00 PM\\nSunday: 7:00 – 10:30 PM\",\n    \"id\": \"C1F1CC85-AE16-40C7-9F02-5A966424AC79\",\n    \"description\": \"Sushi Bar Akari es un acogedor restaurante en Villaverde, famoso por su auténtica cocina japonesa. Ofrecen una amplia variedad de sushi, nigiris y makis, preparados con ingredientes frescos y de alta calidad. La atmósfera es tranquila y moderna, ideal para disfrutar de una experiencia culinaria relajante. El personal es amable y siempre está dispuesto a recomendar los platos más destacados del menú. Perfecto para los amantes del sushi que buscan una experiencia gastronómica auténtica en el corazón de Villaverde.\",\n    \"latitude\": 40.3456\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/advanced-itineraries/save",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"advanced-itineraries",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Advanced itinerary",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"440486BC-CFDA-4132-82F7-1615F3BF7028\",\n    \"title\": \"Restaurante Asador El Cordero de Perales\",\n    \"opening_hours\": \"Monday: 8:00 AM – 11:00 PM\\nTuesday: 8:00 AM – 11:00 PM\\nWednesday: 8:00 AM – 11:00 PM\\nThursday: 8:00 AM – 11:00 PM\\nFriday: 8:00 AM – 11:00 PM\\nSaturday: 8:00 AM – 11:00 PM\\nSunday: 8:00 AM – 11:00 PM\",\n    \"source\": \"GPTravel\",\n    \"website\": \"https://asadordeperales.es/\",    \n    \"description\": \"El Restaurante Asador El Cordero de Perales es un lugar emblemático para los amantes de la carne en Getafe. Especializado en cordero lechal asado al estilo tradicional, este restaurante ofrece una experiencia culinaria auténtica en un ambiente acogedor. El cordero es preparado con esmero, resaltando sus sabores naturales y jugosidad. Además, el lugar cuenta con una decoración rústica que complementa perfectamente la experiencia gastronómica. Es un sitio ideal para disfrutar de un platillo típico mientras se descubre la cultura local.\",\n    \"address\": \"C. de Groenlandia, 4, 28909 Getafe, Madrid, Spain\",\n    \"latitude\": 40.3075,\n    \"duration\": 90,\n    \"longitude\": -3.6933,\n    \"imageReal\": \"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=AeeoHcKbVUo3UsoSZefZ2n50AmYrEoNesnl9ydJfyRWCI6MxYNlhYw4j3msplrDRU8JFm2zf-9jL4twOtcy-Z9rZmkGRW9fZzo9Cn-qbg0EZsZwPIPuVL-9iinsSucncwvvkBx_q0yUeav-iH8yL-BJ6HKGDPgLs1icp06lXHgBx1hOtvw4sLJJiDYh94gys8IKqybU9lFs9JLy8Y2fSYgs3koI53HpwJi4Q5A7gOpiPExjaY3fRbE533tzQUH1Tvt69USiE-_8Zkjbo1v8kIO_OMbRMG6alCS0idv5GEcWvFW0AR3GSEzbA8GSieVveKr6YMVcR4DcTV_Q&key=AIzaSyBZVmmA-TyH5XaSYstQn46P7z3rsiCE_5E\",\n    \"phone\": \"916 84 85 39\",\n    \"imageAI\": \"/images/itineraries/440486BC-CFDA-4132-82F7-1615F3BF7028.png\",\n    \"category\": \"tourism\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/advanced-itineraries/delete/{id_itinerario}",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"advanced-itineraries",
+						"delete",
+						"{id_itinerario}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"latitude\": 40.4168,\n  \"longitude\": -3.7038\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/ads/banner",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"ads",
+						"banner"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test mail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/auth/test-mail",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"auth",
+						"test-mail"
+					]
+				},
+				"description": "Devuelve datos del usuario autenticado."
+			},
+			"response": []
+		},
+		{
+			"name": "Emergency Start",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"emergencyEmail\": \"rubiocasasjuancarlos@gmail.com\",\n  \"latitude\": 40.4168,\n  \"longitude\": -3.7038\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/emergency/start",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"emergency",
+						"start"
+					]
+				},
+				"description": "Genera un itinerario con GPT y DALL·E."
+			},
+			"response": []
+		},
+		{
+			"name": "Emergency Update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"latitude\": 40.4168,\n  \"longitude\": -3.7038\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/emergency/update",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"emergency",
+						"update"
+					]
+				},
+				"description": "Genera un itinerario con GPT y DALL·E."
+			},
+			"response": []
+		},
+		{
+			"name": "Emergency Stop",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Servidor_TravelGuideAPI}}/emergency/stop",
+					"host": [
+						"{{Servidor_TravelGuideAPI}}"
+					],
+					"path": [
+						"emergency",
+						"stop"
+					]
+				},
+				"description": "Genera un itinerario con GPT y DALL·E."
+			},
+			"response": []
+		}
+	]
+}
